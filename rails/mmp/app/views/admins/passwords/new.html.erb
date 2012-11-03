@@ -1,0 +1,27 @@
+		<div id="forgotbox-text">
+<%=
+	if resource.errors[:email].size > 0
+		"Email "+resource.errors[:email][0]
+	else
+		"Please send us your email and we'll reset your password."
+	end
+%>
+		</div>
+		<!--  start forgot-inner -->
+		<div id="forgot-inner">
+			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+			<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<th>Email address:</th>
+				<td><%= f.email_field :email, :class => 'login-inp' %></td>
+			</tr>
+			<tr>
+				<th> </th>
+				<td><%= f.submit "Send me reset password instructions", :class => 'submit-login' %></td>
+			</tr>
+			</table>
+			<% end %>
+		</div>
+		<!--  end forgot-inner -->
+		<div class="clear"></div>
+		<%= link_to 'Back to login', new_admin_session_path, :class => 'back-login' %>

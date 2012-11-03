@@ -1,0 +1,33 @@
+<h1>Showing <%= @type.singularize %>: #<%= @object.id %> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</h1>
+
+<%
+	for field in @class.form_fields
+		next if field == :password
+		if field.to_s.match /_id$/
+			type = field.to_s.gsub( /_id$/, '' ).to_sym
+			link = manage_path( type.to_s.pluralize, 'show', @object.send( field ) )
+			field = type
+		else
+			link = nil
+		end
+%>
+<p>
+  <b><%= field.to_s.humanize %>:</b>
+<%=
+	if @object.column_for_attribute( field ).type == :text
+		raw( @object.send( field ) )
+	elsif link
+		link_to @object.send( field ), link, :class => 'fancybox', 'data-fancybox-type' => "iframe"
+	else
+		@object.send( field )
+	end
+%>
+</p>
+<%
+	end
+%>
+<script type="text/javascript">
+$("a.fancybox").fancybox({
+	titlePosition: 'over'
+});
+</script>

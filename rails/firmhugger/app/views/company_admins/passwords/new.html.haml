@@ -1,0 +1,27 @@
+- title "FirmHugger - Forgot password"
+
+.signin-box
+  %hgroup
+    %h1 Forgot your password?
+    %hr.top
+    %hr.bottom
+    %h2
+      Send us your 
+      %span.bold 
+        email address 
+      and we'll send you instructions on how to reset your password!
+
+  #signin-form
+    = form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
+      = devise_error_messages!
+      %div
+        = f.label :email
+        = f.email_field :email, :class => "input-area"
+      = f.submit "Send", :class => "login-button"
+
+  .clearfix
+
+#signin-links
+  = link_to "Sign in", new_company_admin_session_path, :class => "signin-link"
+  = link_to "Don't have an account?", new_registration_path(resource_name), :class => "signin-link"
+  = link_to "Didn't receive confirmation email?", new_confirmation_path(resource_name), :class => "signin-link"

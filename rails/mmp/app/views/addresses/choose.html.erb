@@ -1,0 +1,11 @@
+<h1>Choose <%= @type.humanize.downcase %> address</h1>
+
+<% @addresses.each do |address| %>
+<div class="left boxed" style="width: 270px; height: 133px; margin-bottom: 20px; cursor: pointer" onclick="window.location.href='<%= checkout_path( :type => @type, :address_id => address.id ) %>'">
+	<%= simple_format( address.to_s ) %>
+</div>
+<% end %>
+
+<br clear="all" />
+
+<%= link_to 'New Address', new_address_path( :type => @type, :from => 'checkout' ) %>

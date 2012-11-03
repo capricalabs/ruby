@@ -1,0 +1,50 @@
+- title "FirmHugger - Create company profile"
+
+.container
+  .row.content
+    %section.span8
+      .textbox-primary
+        .textbox-content
+          %h1
+            Your company information
+          %p
+            To create a company profile you must provide an email address that corresponds to the company's domain name.
+          %p
+            For example, if your company's domain name is "urtekram.dk" then you must have an email address like "your-name@urtekram.dk".
+          - if resource.errors.any?
+            .form-error-box
+              %h2 Oups, we encountered some problems
+              %ul
+                - for message in resource.errors.full_messages do
+                  %li= message
+          = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :class => 'edit_company' }) do |f|
+            = f.label :company_name, "Name of company"
+            = f.text_field :company_name, :class => "input-area"
+            = f.label :company_website, "Web address of company"
+            = f.text_field :company_website, :class => "input-area"
+            = f.label :email
+            = f.email_field :email, :class => "input-area"
+            %p.hint Your email must match the domain name of your company's website. If you don't have an email address that matches your company's domain name click here.
+            = f.label :password
+            %p.hint minimum 6 characters
+            = f.password_field :password, :class => "input-area"
+            = f.label :password_confirmation
+            = f.password_field :password_confirmation, :class => "input-area"
+            = f.label :name, "Full Name"
+            = f.text_field :name, :class => "input-area"
+            %p.hint Please provide your full name with which you can be identified in your company.
+            .clearfix
+            = f.submit "Create", :class => "submit-button"
+          .clearfix
+          
+
+    %section.span4
+      .textbox-primary
+        %h1
+          Benefits
+        %p
+          With a company profile on firmhugger you can...
+
+#signin-links
+  = link_to "Sign in", new_company_admin_session_path, :class => "signin-link"
+  = link_to "Didn't receive confirmation email?", new_confirmation_path(resource_name), :class => "signin-link"

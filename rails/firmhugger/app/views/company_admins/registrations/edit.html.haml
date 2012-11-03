@@ -1,0 +1,49 @@
+- title "FirmHugger - Edit profile"
+
+= render :partial => "users/user_header"
+  
+.container
+  .row.content
+    %section.span4
+      .textbox-primary
+        %h1
+          Change your password
+        %ul.sidebar-menu
+          %li= link_to "Edit user info", settings_path, :class => "sidebar-menu-link"
+          %li= link_to "Back to profile", resource, :class => "sidebar-menu-link"
+        .textbox-content-separator
+        %h1
+          Suggestions?
+        %p 
+          Let us know! Send us an 
+          %span= link_to "email", "mailto:contact@firmhugger.com", :class => "edit-information"
+
+    %section.span8
+      - if resource.errors.any?
+        .form-error-box
+          %h2 Oups, we encountered some problems
+          %ul
+            - for message in resource.errors.full_messages do
+              %li= message
+
+      .textbox-primary
+        .textbox-content
+          = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+            = f.label :current_password
+            %br
+            = f.password_field :current_password, :class => "input-area"
+            %p.hint We need your password to confirm your changes
+
+
+            .short-field.pull-left
+              = f.label :password, "New Password", :class => "short"
+              %br
+              = f.password_field :password, :autocomplete => "off", :class => "input-area-short"
+              %p.hint Minimum 6 characters
+            .short-field.pull-right
+              = f.label :password_confirmation, "Repeat new password", :class => "short"
+              %br
+              = f.password_field :password_confirmation, :class => "input-area-short"
+            .clearfix
+            = f.submit "Change my password", :class => "submit-button"
+          .clearfix

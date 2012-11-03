@@ -1,0 +1,50 @@
+					<table border="0" cellpadding="0" cellspacing="0"  id="id-form">
+					<tbody id="product_images">
+<%
+		object.images.each_with_index do |img,key|
+%>
+					<tr>
+						<th valign="top">Image:</th>
+						<td style="width: 300px">
+<%
+			if img.image?
+%>
+								<%= check_box_tag 'product[images]['+key.to_s+'][remove_image]', 1  %> <span style="float: left; margin: 3px 0 0 5px">Remove</span>
+								<br clear="all"/>
+								<%= image_tag( img.image.thumb.url )  %>
+								<br clear="all"/>
+<%
+			end
+%>
+								<%= file_field_tag 'product[images]['+key.to_s+'][image]', :class => 'file_1' %>
+								<%= hidden_field_tag 'product[images]['+key.to_s+'][image_cache]', img.image_cache %>
+						</td>
+<%
+			if object.errors[:images].first
+%>
+						<td>
+							<div class="error-left"></div>
+							<div class="error-inner"><%= object.errors[:images].first %></div>
+						</td>
+<%
+			else
+%>
+						<td>
+							<div class="bubble-left"></div>
+							<div class="bubble-inner">JPEG, GIF or PNG</div>
+							<div class="bubble-right"></div>
+						</td>
+<%
+			end
+%>
+					</tr>
+<%
+		end
+%>
+					</tbody>
+					<tfooter>
+					<tr>
+						<td colspan="3"><input type="button" class="button" name="addimg" value="Add Image" onclick="add_another_image('<%= object.images.size %>')" /></td>
+					</tr>
+					</tfooter>
+					</table>

@@ -1,0 +1,55 @@
+<%
+	for field in fclass.form_fields
+		next if field.blank?
+		if object.errors[field].size > 0
+			error = object.errors[field][0]
+		else
+			error = nil
+		end
+%>
+					<tr>
+						<th valign="top"><%= field.to_s.humanize %>:</th>
+						<td>
+<%=
+		case object.column_for_attribute( field ).type
+		when :text
+			if field.to_s == 'body'
+				text_area_tag( fclass.to_s.underscore+'['+field.to_s+'][]', object.column(1), :id => fclass.to_s.underscore+'_'+field.to_s+'_0', :class => 'form-textarea' )+text_area_tag( fclass.to_s.underscore+'['+field.to_s+'][]', object.column(2), :id => fclass.to_s.underscore+'_'+field.to_s+'_1', :class => 'form-textarea '+( object.columns >= 2 ? '' : 'hidden' ) )+text_area_tag( fclass.to_s.underscore+'['+field.to_s+'][]', object.column(3), :id => fclass.to_s.underscore+'_'+field.to_s+'_2', :class => 'form-textarea '+( object.columns >= 3 ? '' : 'hidden' ) )+text_area_tag( fclass.to_s.underscore+'['+field.to_s+'][]', object.column(4), :id => fclass.to_s.underscore+'_'+field.to_s+'_3', :class => 'form-textarea '+( object.columns >= 4 ? '' : 'hidden' ) )
+			else
+				f.text_area field, :class => 'form-textarea'
+			end
+		when :boolean
+			f.check_box field
+		else
+			if field.to_s == 'password'
+				f.password_field field, :class => 'inp-form'+( error ? '-error' : '' )
+			elsif field.to_s == 'country'
+				f.select field, options_for_select(['']+ApplicationHelper::COUNTRIES, object.country), {}, :class => 'styledselect_form_1'
+			elsif field.to_s == 'currency'
+				f.select field, options_for_select(['']+ApplicationHelper::CURRENCIES, object.currency), {}, :class => 'styledselect_form_1'
+			elsif field.to_s == 'layout'
+				f.select field, options_for_select(fclass.layouts, object.layout || 'Wide'), {}, :onchange => "switch_layouts(this)", :class => 'styledselect_form_1'
+			elsif field.to_s.match( /date/ )
+				f.datepicker field, :showOn => 'both', :buttonImage => asset_path( 'forms/icon_calendar.jpg' ), :class => 'inp-form'+( error ? '-error' : '' )
+			elsif field.to_s.match( /_id$/ )
+				f.select field, ['']+field.to_s.humanize.classify.constantize.for_select, {}, :class => 'styledselect_form_1'
+			else
+				f.text_field field, :class => 'inp-form'+( error ? '-error' : '' )
+			end
+		end
+%>
+						</td>
+<%
+		if error
+%>
+						<td>
+							<div class="error-left"></div>
+							<div class="error-inner"><%= error %></div>
+						</td>
+<%
+		end
+%>
+					</tr>
+<%
+	end
+%>

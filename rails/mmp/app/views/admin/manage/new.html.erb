@@ -1,0 +1,5 @@
+<div id="page-heading">
+	<h1>New <%= @type.singularize.humanize %> <%=raw @user ? 'for '+link_to( @user.to_s, manage_path( @utype, 'edit', @user ) ) : '' %></h1>
+</div>
+
+<%= render 'form' %>

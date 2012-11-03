@@ -1,0 +1,28 @@
+			<!-- slide show area -->
+			<div id="slideshow">
+				<div id="slider">
+					<ul>	
+<%
+	deals = Deal.active_deals.order( 'rand()' )
+	for deal in deals
+%>
+						<li>
+<%
+		if deal.product.images.size > 0 and deal.product.images.first.image?
+%>
+							<a href="<%= deal.product.images.first.image.url %>" rel="deals" class="fancybox" title="<%= deal.product.to_s %>"><%= image_tag deal.product.images.first.image.thumb.url, :alt => deal.product.to_s %></a>
+<%
+		end
+%>
+							<h1><%= link_to deal.product.to_s, deal_path( deal ) %></h1>
+							<h2 onclick="window.location.href='<%= deal_path( deal ) %>'" style="cursor: pointer">Our Price: <%=raw format_price deal.price, deal.currency %></h2>
+							<h2 onclick="window.location.href='<%= deal_path( deal ) %>'" style="cursor: pointer">Minimum Quantity: <%= deal.min_qty %></h2>
+							<p><%= deal.product.summary %></p>
+							<a data-fancybox-type="iframe" href="<%= phone_specs_path( deal.product.id ) %>" class="button large fancybox">Read More Specs</a>
+						</li>
+<%
+	end
+%>
+					</ul>
+				</div><!-- end slider -->
+			</div><!-- end slideshow -->

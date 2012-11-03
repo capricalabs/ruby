@@ -1,0 +1,38 @@
+<div class="left twothirds">
+	<h1>Resend unlock instructions</h1>
+	<div class="mailwrapper">
+		<div class="maildiv">
+<% if resource.errors.any? %>
+			<!--  start message-red -->
+			<div id="message-red">
+				<table border="0" width="100%" cellpadding="0" cellspacing="0" class="plain">
+				<tr>
+					<td class="red-left">Please correct the following <%= resource.errors.count == 1 ? "error" : "errors" %>:</td>
+					<td class="red-right"><a class="close-red"><%= image_tag "table/icon_close_red.gif" %></a></td>
+				</tr>
+				</table>
+			</div>
+			<!--  end message-red -->
+<% end %>
+<%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f| %>
+<%
+	if resource.errors[:email][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:email][0] %></div>
+<%
+	end
+%>
+	<%= f.label :email, :class => 'sidelbl' %>
+	<%= f.email_field :email, :class => 'fmtext' %>
+	<br clear="all" />
+	<div class="fmspacer"><!-- --></div>
+	<div class="fmsubmit"><%= f.submit "Resend unlock instructions", :style => 'width:190px !important' %></div>
+<% end %>
+		</div>
+	</div>
+</div>
+<div class="right third"> <!-- float column on right and make it 1/3 width -->
+	<%= render :partial => "devise/shared/links" %>
+</div><!-- end column -->
+

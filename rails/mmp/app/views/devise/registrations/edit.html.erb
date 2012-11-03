@@ -1,0 +1,151 @@
+<%= render 'shared/myaccount' %>
+<div class="right twothirds">
+	<h1>Edit <%= resource_name.to_s.humanize %></h1>
+	<div class="mailwrapper">
+		<div class="maildiv">
+<% if resource.errors.any? %>
+			<!--  start message-red -->
+			<div id="message-red">
+				<table border="0" width="100%" cellpadding="0" cellspacing="0" class="plain">
+				<tr>
+					<td class="red-left">Please correct the following <%= resource.errors.count == 1 ? "error" : "errors" %>:</td>
+					<td class="red-right"><a class="close-red"><%= image_tag "table/icon_close_red.gif" %></a></td>
+				</tr>
+				</table>
+			</div>
+			<!--  end message-red -->
+<% end %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+<%
+	if resource.errors[:email][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:email][0] %></div>
+<%
+	end
+%>
+	<%= f.label :email, :class => 'sidelbl' %>
+	<%= f.email_field :email, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:password][0]
+%>
+	<div class="error-inner"><%= resource.errors[:password][0] %></div>
+	<div class="error-left"></div>
+<%
+	end
+%>
+	<%= f.label :password, "Change password", :class => 'sidelbl' %>
+	<%= f.password_field :password, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:password_confirmation][0]
+%>
+	<div class="error-inner"><%= resource.errors[:password_confirmation][0] %></div>
+	<div class="error-left"></div>
+<%
+	end
+%>
+	<%= f.label :password_confirmation, :class => 'sidelbl' %>
+	<%= f.password_field :password_confirmation, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:name][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:name][0] %></div>
+<%
+	end
+%>
+	<%= f.label :name, :class => 'sidelbl' %>
+	<%= f.text_field :name, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:company][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:company][0] %></div>
+<%
+	end
+%>
+	<%= f.label :company, :class => 'sidelbl' %>
+	<%= f.text_field :company, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:phone][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:phone][0] %></div>
+<%
+	end
+%>
+	<%= f.label :phone, :class => 'sidelbl' %>
+	<%= f.text_field :phone, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if !resource.dealer
+		if resource.errors[:bank_name][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:bank_name][0] %></div>
+<%
+		end
+%>
+	<%= f.label :bank_name, :class => 'sidelbl' %>
+	<%= f.text_field :bank_name, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+		if resource.errors[:account_name][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:account_name][0] %></div>
+<%
+		end
+%>
+	<%= f.label :account_name, :class => 'sidelbl' %>
+	<%= f.text_field :account_name, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+		if resource.errors[:account_number][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:account_number][0] %></div>
+<%
+		end
+%>
+	<%= f.label :account_number, :class => 'sidelbl' %>
+	<%= f.text_field :account_number, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+		if resource.errors[:swift_code][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:swift_code][0] %></div>
+<%
+		end
+%>
+	<%= f.label :swift_code, :class => 'sidelbl' %>
+	<%= f.text_field :swift_code, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	end
+%>
+<%
+	if resource.errors[:current_password][0]
+%>
+	<div class="error-inner"><%= resource.errors[:current_password][0] %></div>
+	<div class="error-left"></div>
+<%
+	end
+%>
+	<%= f.label :current_password, "Current password", :class => 'sidelbl' %>
+	<%= f.password_field :current_password, :class => 'fmtext' %>
+	<br clear="all" />
+	<div style="text-align: center; font-style: italic">(we need your current password to confirm your changes)</div>
+	<div class="fmspacer"><!-- --></div>
+	<div class="fmsubmit"><%= f.submit "Update" %></div>
+<% end %>
+		</div>
+	</div>
+</div>
+

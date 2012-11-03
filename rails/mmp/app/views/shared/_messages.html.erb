@@ -1,0 +1,31 @@
+<%
+	if flash[:alert]
+%>
+				<!--  start message-red -->
+				<div id="message-red">
+				<table border="0" width="100%" cellpadding="0" cellspacing="0" class="plain">
+				<tr>
+					<td class="red-left"><%= alert %></td>
+					<td class="red-right"><a class="close-red"><%= image_tag "table/icon_close_red.gif" %></a></td>
+				</tr>
+				</table>
+				</div>
+				<!--  end message-red -->
+<%
+	end
+	if flash[:notice]
+%>
+				<!--  start message-green -->
+				<div id="message-green">
+				<table border="0" width="100%" cellpadding="0" cellspacing="0" class="plain">
+				<tr>
+					<td class="green-left"><%= notice %></td>
+					<td class="green-right"><a class="close-green"><%= image_tag "table/icon_close_green.gif" %></a></td>
+				</tr>
+				</table>
+				</div>
+				<!--  end message-green -->
+<%
+	end
+%>
+

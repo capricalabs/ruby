@@ -1,0 +1,86 @@
+<%= form_for(@address) do |f| %>
+<%= f.hidden_field :billing %>
+<%= hidden_field_tag :from, params[:from] %>
+<div class="mailwrapper">
+	<div class="maildiv">
+	<% if @address.errors.any? %>
+		<!--  start message-red -->
+		<div id="message-red">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0" class="plain">
+			<tr>
+				<td class="red-left">Please correct the following <%= @address.errors.count == 1 ? "error" : "errors" %>:</td>
+				<td class="red-right"><a class="close-red"><%= image_tag "table/icon_close_red.gif" %></a></td>
+			</tr>
+			</table>
+		</div>
+		<!--  end message-red -->
+	<% end %>
+<%
+	if @address.errors[:line][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= @address.errors[:line][0] %></div>
+<%
+	end
+%>
+	<%= f.label :line, :class => 'sidelbl' %>
+	<%= f.text_field :line, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if @address.errors[:line2][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= @address.errors[:line2][0] %></div>
+<%
+	end
+%>
+	<%= f.label :line2, :class => 'sidelbl' %>
+	<%= f.text_field :line2, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if @address.errors[:city][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= @address.errors[:city][0] %></div>
+<%
+	end
+%>
+	<%= f.label :city, :class => 'sidelbl' %>
+	<%= f.text_field :city, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if @address.errors[:state][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= @address.errors[:state][0] %></div>
+<%
+	end
+%>
+	<%= f.label :state, :class => 'sidelbl' %>
+	<%= f.text_field :state, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if @address.errors[:zip][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= @address.errors[:zip][0] %></div>
+<%
+	end
+%>
+	<%= f.label :zip, :class => 'sidelbl' %>
+	<%= f.text_field :zip, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if @address.errors[:country][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= @address.errors[:country][0] %></div>
+<%
+	end
+%>
+	<%= f.label :country, :class => 'sidelbl' %>
+	<%= f.select :country, options_for_select(['']+ApplicationHelper::COUNTRIES, @address.country), {}, :class => 'fmtext' %>
+	<br clear="all" />
+	<div class="fmspacer"><!-- --></div>
+	<div class="fmsubmit"><%= f.submit "Submit" %> <input type="button" name="cancelbtn" value="Cancel" onclick="window.location.href='<%= params[:from] == 'checkout' ? choose_addresses_path( :type => @type ) : addresses_path( :type => @type ) %>'" /></div>
+<% end %>

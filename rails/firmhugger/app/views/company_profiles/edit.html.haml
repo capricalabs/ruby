@@ -1,0 +1,131 @@
+- title "FirmHugger - Company profile - Edit"
+
+%section#introbox.companies.profile
+  .container
+    .row.intro
+      .company-header.pull-left
+        %section.company-info.span8
+          %hgroup.introbox-text
+            %h1
+              = @company.name
+            %h2.tagline
+              %strong Welcome!
+              This is your
+              %strong admin page
+              for your company profile.
+              Here you can edit all the content of your company profile and
+              upload pictures. You can also manage who can edit the content
+              of your profile.
+        %section.user-action.span4
+          .company.action-container
+            %form.company_profile
+              .pull-left
+                = submit_tag "PREVIEW", :class => "submit-button"
+              .pull-right
+                = submit_tag "PUBLISH", :class => "submit-button"
+    .clearfix
+
+.container
+  .row.content
+    %section.span4
+      .textbox-primary
+        = render :partial => "menu"
+      .textbox-primary
+        %h1 Company page layout
+        %p This shows the page layout of your company profile.
+        %p Img goes here...
+        %h1 Badge layout
+        %p This shows how the layout of your company profile will be
+        %p Img goes here...
+
+    %section.span8
+      - if @company.errors.any?
+        .form-error-box
+          %h2 Oups, we encountered some problems
+          %ul
+            - for message in @company.errors.full_messages do
+              %li= message
+      .textbox-primary
+        %h1
+          Edit company page
+        %p
+          This is your company profile page. Make it stand out with a great and informative
+          slideshow and profile text that presents your company, it's products, and visions.
+        .textbox-content
+          = form_for @picture, :remote => true do |f|
+            = f.file_field :picture, :style => 'display: none'
+          = form_for @company, :remote => true, :url => profile_url do |f|
+            = f.label :slideshow, "Slideshow"
+            .clearfix
+            = render :partial => "slideshow_form", :locals => { :pictures => @company.slideshow_pictures, :f => f }
+            .clearfix
+            = f.label :profile_text, "Profile text"
+            .clearfix
+            %p
+              Add text to show the users why your company is green.
+              %br
+              The textbox will appear underneath the slider.
+            = f.text_area :profile_text, :rows => 10, :class => "input-area"
+            .clearfix
+            = f.label :name, "Company name"
+            = f.text_field :name, :class => "input-area"
+            .clearfix
+            = f.label :tagline, "Company tagline"
+            %p.info
+              %span#characters-count 140
+              characters left
+            = f.text_area :tagline, :rows => 3, :class => "input-area"
+            .clearfix
+            = f.label :location, "Location"
+            = f.text_field :location, :class => "input-area"
+            .clearfix
+            = f.label :country, "Country", 'id' => 'country_label', 'data-current-country' => @company.country
+            = f.country_select :country
+            :javascript
+              $("#company_country").prepend($("<option value='' id='empty-country'>International / More than one country</option>"));
+              $("#company_country").addClass("input-area");
+              if($("#country_label").attr("data-current-country") == "")
+                $("#empty-country").attr("selected", "selected");
+              $("#company_country").selectToAutocomplete({'remove-valueless-options': false, 'relevancy-sorting': true});
+            .clearfix
+            = f.label :url, "Website"
+            = f.text_field :url, :class => "input-area"
+            .clearfix
+            = f.label :picture
+            .clearfix
+            - if @company.picture?
+              = image_tag @company.picture.url(:list)
+              %br
+              Delete picture
+              = f.check_box :delete_picture
+              %br
+            = f.file_field :picture
+            .clearfix
+            = f.label "Product categories"
+            .clearfix
+            - ["first", "second", "third"].each do |nth|
+              = collection_select :company, "#{nth}_category_id".to_sym, Category.all, :id, :title, {:prompt => "Select a category", :include_blank => true}, {:class => "select-input-field #{nth}"}
+            .clearfix
+            = f.label :products, "Products", :class => "products-label"
+            %p.info
+              %span#product-characters-count 20
+              characters left
+            #tags-container
+            #product_name_too_long
+              A product name can't be longer than 20 characters, sorry.
+            = f.text_field :product_list, :class => "input-area"
+
+            #product-search-results
+              #spotlight.company-edit
+
+            %p.hint
+              Add specific products that the company offers, e.g. 
+              %span "coffee, banking, hairdressing, chocolate, t-shirts"
+              (max 20 characters per product)
+
+            = f.submit "Save!", :class => "submit-button grey-button"
+          .clearfix
+        
+          :javascript
+            $("#company_tagline").limit(140, "#characters-count");
+            $("form.edit_company").companyEditForm();

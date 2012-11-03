@@ -1,0 +1,28 @@
+					<h2>Selling Blocks</h2>
+					<table border="0" cellpadding="0" cellspacing="0"  id="id-form">
+					<tbody id="deal_quantities">
+					<tr>
+						<th>Qty</th>
+						<th>&nbsp;</th>
+						<th>Price Change</th>
+						<th>&nbsp;</th>
+						<th>Delete</th>
+					</tr>
+<% object.deal_quantities.sort_by{|dqty| dqty.qty}.each do |dqty| %>
+	<%= f.fields_for :deal_quantities, dqty do |subform| %>
+					<tr>
+						<td><%= subform.text_field :qty, :class => 'inp-form' %></td>
+						<td>&nbsp;</td>
+						<td><%= subform.text_field :price_change, :class => 'inp-form' %></td>
+						<td>&nbsp;</td>
+						<td><%= subform.check_box :_destroy %></td>
+					</tr>
+	<% end %>
+<% end %>
+					</tbody>
+					<tfooter>
+					<tr>
+						<td colspan="5"><input type="button" class="button" name="addrow" value="Add More" onclick="add_another_qty('<%= object.deal_quantities.size %>')" /></td>
+					</tr>
+					</tfooter>
+					</table>

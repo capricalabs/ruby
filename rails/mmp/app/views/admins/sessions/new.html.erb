@@ -1,0 +1,26 @@
+		<!--  start login-inner -->
+		<div id="login-inner">
+			<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+			<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<th>Email</th>
+				<td><%= f.email_field :email, :class => 'login-inp' %></td>
+			</tr>
+			<tr>
+				<th>Password</th>
+				<td><%= f.password_field :password, :class => 'login-inp' %></td>
+			</tr>
+			<tr>
+				<th></th>
+				<td valign="top"><%= f.check_box :remember_me, :class => "checkbox-size", :id => "login-check" %><label for="login-check">Remember me</label></td>
+			</tr>
+			<tr>
+				<th></th>
+				<td><%= f.submit "Sign in", :class => 'submit-login' %></td>
+			</tr>
+			</table>
+			<% end %>
+		</div>
+	 	<!--  end login-inner -->
+		<div class="clear"></div>
+		<%= link_to 'Forgot Password?', new_admin_password_path, :class => 'forgot-pwd' %>

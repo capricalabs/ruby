@@ -1,0 +1,95 @@
+<%= form_for( @object, :url => { :action => ( @object.new_record? ? 'create' : 'update' ), :id => @object }, :html => { :multipart => true } ) do |f| %>
+<table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+<tr>
+	<th rowspan="3" class="sized"><%= image_tag 'shared/side_shadowleft.jpg', :width => 20, :height => 300 %></th>
+	<th class="topleft"></th>
+	<td id="tbl-border-top">&nbsp;</td>
+	<th class="topright"></th>
+	<th rowspan="3" class="sized"><%= image_tag 'shared/side_shadowright.jpg', :width => 20, :height => 300 %></th>
+</tr>
+<tr>
+	<td id="tbl-border-left"></td>
+	<td>
+		<!--  start content-table-inner -->
+		<div id="content-table-inner">
+<% if @object.errors.any? %>
+					<!--  start message-red -->
+					<div id="message-red">
+						<table border="0" width="100%" cellpadding="0" cellspacing="0">
+						<tr>
+							<td class="red-left">Please correct the following <%= @object.errors.count == 1 ? "error" : "errors" %>:</td>
+							<td class="red-right"><a class="close-red"><%= image_tag "table/icon_close_red.gif" %></a></td>
+						</tr>
+						</table>
+					</div>
+					<!--  end message-red -->
+<% end %>
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr valign="top">
+				<td>
+					<!-- start id-form -->
+					<table border="0" cellpadding="0" cellspacing="0"  id="id-form">
+					<%= render 'admin/manage/form_fields', :f => f, :object => @object, :fclass => @class %>
+					<tr>
+						<th>&nbsp;</th>
+						<td valign="top">
+							<%= f.submit :class => 'form-submit' %>
+							<input type="reset" value="" class="form-reset"  />
+						</td>
+						<td></td>
+					</tr>
+					</table>
+					<!-- end id-form  -->
+				</td>
+<%
+	if @class.methods.include? 'right_pane'
+%>
+				<td>
+			<%= render 'admin/manage/'+@class.right_pane, :f => f, :object => @object %>
+				</td>
+<%
+	end
+	if @object.new_record?
+		if [ 'dealers', 'wholesalers' ].include? @type
+%>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="0"  id="id-form">
+					<tr>
+						<th colspan="2">Shipping Address:</th>
+					</tr>
+					<%= f.fields_for :shipping_address, @object.shipping_address do |subform| render 'admin/manage/form_fields', :f => subform, :object => @object.shipping_address, :fclass => ShippingAddress end %>
+					</table>
+				</td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="0"  id="id-form">
+					<tr>
+						<th colspan="2">Billing Address: <input type="button" id="same_billing_btn" name="same_billing_btn" value="Copy from Shipping" /></th>
+					</tr>
+					<%= f.fields_for :billing_address, @object.billing_address do |subform| render 'admin/manage/form_fields', :f => subform, :object => @object.billing_address, :fclass => BillingAddress end %>
+					</table>
+				</td>
+<%
+		end
+	else
+		if @class.methods.include? 'related_edit'
+%>
+			<%= render 'admin/manage/'+@class.related_edit %>
+<%
+		end
+	end
+%>
+			</tr>
+			</table>
+			<div class="clear"></div>
+		</div>
+		<!--  end content-table-inner  -->
+	</td>
+	<td id="tbl-border-right"></td>
+</tr>
+<tr>
+	<th class="sized bottomleft"></th>
+	<td id="tbl-border-bottom">&nbsp;</td>
+	<th class="sized bottomright"></th>
+</tr>
+</table>
+<% end %>

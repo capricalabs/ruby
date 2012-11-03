@@ -1,0 +1,24 @@
+<div class="left twothirds"> <!-- float column on left and make it 2/3 width -->
+	<h1>Contact Form</h1>
+	<p>Contact us if you have any questions.</p>
+	<!-- fetch contact form -->
+	<div class="mailwrapper">
+		<div class="maildiv">
+			<form method="post">
+				<label class="sidelbl" for="fm_name"><span class="fmrequired">* </span>Name</label>
+				<input type="text" class="fmtext" name="fm_name" id="fm_name" size="32" maxlength="100" /><br />
+				<label class="sidelbl" for="fm_email"><span class="fmrequired">* </span>Email</label>
+				<input type="text" class="fmtext" name="fm_email" id="fm_email" size="32" maxlength="100" /><br />
+				<label class="sidelbl" for="fm_phone">Phone Number</label>
+				<input type="text" class="fmtext" name="fm_phone" id="fm_phone" size="32" maxlength="100" /><br />
+				<label class="sidelbl" for="fm_message"><span class="fmrequired">* </span>Comments</label>
+				<textarea class="fmtextarea" name="fm_message" id="fm_message" rows="6" cols="26" ></textarea><br />
+				<div class="fmspacer"><!-- --></div>
+				<div class="fmsubmit"><input name="form_submitted" type="submit" id="Submit" value="Send Email" /></div>
+			</form>
+		</div>
+	</div> 
+</div><!-- end column -->
+<div class="right third"> <!-- float column on right and make it 1/3 width -->
+	<%= raw @right_column %>
+</div><!-- end column -->      

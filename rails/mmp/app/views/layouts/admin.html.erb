@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>MMP Admin</title>
+<%= stylesheet_link_tag    "admin/application", :media => "all" %>
+<%= javascript_include_tag "admin/application" %>
+<%= csrf_meta_tags %>
+<!--[if IE]>
+<%= stylesheet_link_tag    "admin/pro_dropline_ie", :media => "all" %>
+<![endif]-->
+</head>
+<body>
+
+<!-- Start: page-top-outer -->
+<div id="page-top-outer">    
+
+<!-- Start: page-top -->
+<div id="page-top">
+
+	<!-- start logo -->
+	<div id="logo">
+		<%= link_to image_tag( 'logo.png', :width => 161, :height => 51 ), '/' %>
+	</div>
+	<!-- end logo -->
+	
+	<!--  start top-search -->
+	<div id="top-search">
+		<table border="0" cellpadding="0" cellspacing="0">
+		<tr>
+		<td><input type="text" value="Search" onblur="if (this.value=='') { this.value='Search'; }" onfocus="if (this.value=='Search') { this.value=''; }" class="top-search-inp" /></td>
+		<td>
+		<select  class="styledselect">
+			<option value=""> All</option>
+			<option value=""> Products</option>
+			<option value=""> Categories</option>
+			<option value="">Clients</option>
+			<option value="">News</option>
+		</select> 
+		</td>
+		<td>
+		<input type="image" src="<%= asset_path( "shared/top_search_btn.gif" ) %>"  />
+		</td>
+		</tr>
+		</table>
+	</div>
+ 	<!--  end top-search -->
+ 	<div class="clear"></div>
+
+</div>
+<!-- End: page-top -->
+
+</div>
+<!-- End: page-top-outer -->
+	
+<div class="clear">&nbsp;</div>
+ 
+<!--  start nav-outer-repeat................................................................................................. START -->
+<div class="nav-outer-repeat"> 
+<!--  start nav-outer -->
+<div class="nav-outer"> 
+
+		<!-- start nav-right -->
+		<div id="nav-right">
+		
+			<div class="nav-divider">&nbsp;</div>
+			<div class="showhide-account"><%= image_tag "shared/nav/nav_myaccount.gif", :width => 93, :height => 14, :alt => 'My Account' %></div>
+			<div class="nav-divider">&nbsp;</div>
+			<%= link_to image_tag( "shared/nav/nav_logout.gif", :width => 64, :height => 14, :alt => "Logout" ), destroy_admin_session_path, :method => 'delete', :id => 'logout' %>
+			<div class="clear">&nbsp;</div>
+		
+			<!--  start account-content -->	
+			<div class="account-content">
+			<div class="account-drop-inner">
+				<a href="" id="acc-settings">Settings</a>
+				<div class="clear">&nbsp;</div>
+				<div class="acc-line">&nbsp;</div>
+				<a href="" id="acc-details">Personal details </a>
+				<div class="clear">&nbsp;</div>
+				<div class="acc-line">&nbsp;</div>
+				<a href="" id="acc-project">Project details</a>
+				<div class="clear">&nbsp;</div>
+				<div class="acc-line">&nbsp;</div>
+				<a href="" id="acc-inbox">Inbox</a>
+				<div class="clear">&nbsp;</div>
+				<div class="acc-line">&nbsp;</div>
+				<a href="" id="acc-stats">Statistics</a> 
+			</div>
+			</div>
+			<!--  end account-content -->
+		
+		</div>
+		<!-- end nav-right -->
+
+
+		<!--  start nav -->
+		<div class="nav">
+		<div class="table">
+		
+		<ul class="<%= controller.class.to_s.match( /Dashboard/ ) ? 'current' : 'select' %>"><li><a href="<%= url_for :controller => 'admin/dashboard' %>"><b>Dashboard</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<!--[if lte IE 6]><table><tr><td><![endif]-->
+		<div class="select_sub <%= controller.class.to_s.match( /Dashboard/ ) ? 'show' : '' %>">
+			<ul class="sub">
+				<li class="<%= ( controller.class.to_s.match( /Dashboard/ ) and action_name == 'index' ) ? 'sub_show' : '' %>"><%= link_to 'Main', { :controller => 'admin/dashboard' } %></li>
+			</ul>
+		</div>
+		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+		</li>
+		</ul>
+		
+		<div class="nav-divider">&nbsp;</div>
+		                    
+		<ul class="<%= ( controller.class.to_s.match( /Manage/ ) and [ 'wholesalers', 'dealers', 'billing_addresses', 'shipping_addresses', 'admins' ].include?( @type ) ) ? 'current' : 'select' %>"><li><a href="<%= manage_path( 'dealers' ) %>"><b>Manage Users</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<!--[if lte IE 6]><table><tr><td><![endif]-->
+		<div class="select_sub <%= ( controller.class.to_s.match( /Manage/ ) and [ 'wholesalers', 'dealers', 'billing_addresses', 'shipping_addresses', 'admins' ].include?( @type ) ) ? 'show' : '' %>">
+			<ul class="sub">
+				<li class="<%= @type == 'dealers' || @utype == 'dealers' ? 'sub_show' : '' %>"><%= link_to 'Dealers', manage_path( 'dealers' ) %></li>
+				<li class="<%= @type == 'wholesalers' || @utype == 'wholesalers' ? 'sub_show' : '' %>"><%= link_to 'Wholesalers', manage_path( 'wholesalers' ) %></li>
+				<li class="<%= @type == 'admins' ? 'sub_show' : '' %>"><%= link_to 'Admins', manage_path( 'admins' ) %></li>
+			</ul>
+		</div>
+		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+		</li>
+		</ul>
+		
+		<div class="nav-divider">&nbsp;</div>
+		
+		<ul class="<%= ( controller.class.to_s.match( /Manage/ ) and [ 'brands', 'products' ].include?( @type ) ) ? 'current' : 'select' %>"><li><a href="<%= manage_path( 'products' ) %>"><b>Manage Products</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<!--[if lte IE 6]><table><tr><td><![endif]-->
+		<div class="select_sub <%= ( controller.class.to_s.match( /Manage/ ) and [ 'brands', 'products' ].include?( @type ) ) ? 'show' : '' %>">
+			<ul class="sub">
+				<li class="<%= @type == 'brands' ? 'sub_show' : '' %>"><%= link_to 'Brands', manage_path( 'brands' ) %></li>
+				<li class="<%= @type == 'products' ? 'sub_show' : '' %>"><%= link_to 'Products', manage_path( 'products' ) %></li>
+			</ul>
+		</div>
+		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+		</li>
+		</ul>
+		
+		<div class="nav-divider">&nbsp;</div>
+		                    
+		<ul class="<%= ( controller.class.to_s.match( /Manage/ ) and [ 'deals' ].include?( @type ) ) ? 'current' : 'select' %>"><li><a href="<%= manage_path( 'deals' ) %>"><b>Manage Deals</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<!--[if lte IE 6]><table><tr><td><![endif]-->
+		<div class="select_sub <%= ( controller.class.to_s.match( /Manage/ ) and [ 'deals' ].include?( @type ) ) ? 'show' : '' %>">
+			<ul class="sub">
+				<li class="<%= @type == 'deals' ? 'sub_show' : '' %>"><%= link_to 'Deals', manage_path( 'deals' ) %></li>
+			</ul>
+		</div>
+		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+		</li>
+		</ul>
+		
+		<div class="nav-divider">&nbsp;</div>
+		                    
+		<ul class="<%= ( controller.class.to_s.match( /Manage/ ) and [ 'pages', 'banks' ].include?( @type ) ) ? 'current' : 'select' %>"><li><a href="<%= manage_path( 'pages' ) %>"><b>System</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<!--[if lte IE 6]><table><tr><td><![endif]-->
+		<div class="select_sub <%= ( controller.class.to_s.match( /Manage/ ) and [ 'pages', 'banks' ].include?( @type ) ) ? 'show' : '' %>">
+			<ul class="sub">
+				<li class="<%= @type == 'pages' ? 'sub_show' : '' %>"><%= link_to 'Static Pages', manage_path( 'pages' ) %></li>
+				<li class="<%= @type == 'banks' ? 'sub_show' : '' %>"><%= link_to 'Bank Info', manage_path( 'banks' ) %></li>
+			</ul>
+		</div>
+		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+		</li>
+		</ul>
+		
+		<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		</div>
+		<!--  start nav -->
+
+</div>
+<div class="clear"></div>
+<!--  start nav-outer -->
+</div>
+<!--  start nav-outer-repeat................................................... END -->
+
+ <div class="clear"></div>
+ 
+<!-- start content-outer ........................................................................................................................START -->
+<div id="content-outer">
+<!-- start content -->
+<div id="content">
+
+<%= yield %>
+
+</div>
+<!--  end content -->
+<div class="clear">&nbsp;</div>
+</div>
+<!--  end content-outer........................................................END -->
+
+<div class="clear">&nbsp;</div>
+    
+<!-- start footer -->         
+<div id="footer">
+	<!--  start footer-left -->
+	<div id="footer-left">
+	&copy; Copyright Mobile Marketplace. <span id="spanYear"><%= Date.today.year %></span> All rights reserved.</div>
+	<!--  end footer-left -->
+	<div class="clear">&nbsp;</div>
+</div>
+<!-- end footer -->
+
+</body>
+</html>

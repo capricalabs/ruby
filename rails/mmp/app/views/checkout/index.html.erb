@@ -1,0 +1,79 @@
+<h1>Checkout</h1>
+<div class="left boxed box">
+	<h2 style="padding-left: 10px; display: inline">Billing Address</h2>
+	<%= link_to image_tag( 'icon-calendar.png', :width => 24, :height => 24, :alt => 'Change', :title => 'Change', :align => 'absmiddle' ), choose_addresses_path( :type => 'billing' ) %>
+	<%= simple_format( @billing_address.to_s ) %>
+</div>
+<div class="left boxed box">
+	<h2 style="padding-left: 10px; display: inline">Shipping Address</h2>
+	<%= link_to image_tag( 'icon-calendar.png', :width => 24, :height => 24, :alt => 'Change', :title => 'Change', :align => 'absmiddle' ), choose_addresses_path( :type => 'shipping' ) %>
+	<%= simple_format( @shipping_address.to_s ) %>
+</div>
+<table border="0" cellpadding="0" cellspacing="0" class="plain">
+<tr>
+	<td valign="top">
+<%
+	if @deal.product.images.size > 0 and @deal.product.images.first.image?
+%>
+		<%= image_tag @deal.product.images.first.image.thumb.url, :alt => @deal.product.to_s, :align => 'left' %>
+<%
+	end
+%>
+	</td>
+	<td valign="top" align="left">
+		<%=	form_tag checkout_path( :action => 'update' ), :name => 'cartfrm', :method => 'post' do %>
+		<%= hidden_field_tag :warranty, ( @warranty ? 1 : 0 ) %>
+		<h1><%= @deal.product.to_s %></h1>
+		<h2>Deal ID: <%= @deal.id %></h2>
+		<h2>Price: <%=raw format_price @deal.price_for( @qty ), @deal.currency %></h2>
+		<h3>Warranty cost: <%= @deal.warranty_cost ? format_price( @deal.warranty_cost, @deal.currency )+'/pcs' : 'Not offered' %>
+<%
+	unless @deal.product.warranty.nil? or @deal.product.warranty.blank?
+%>
+		<a data-fancybox-type="iframe" href="<%= warranty_info_path( @deal.product.id ) %>" class="fancybox"><%= image_tag 'question-mark.png', :width => 16, :height => 16 %></a>
+<%
+	end
+%>
+		</h3>
+<%
+	if @deal.warranty_cost and !@warranty
+%>
+		<a href="#" class="button large" style="float: none" onclick="document.cartfrm.warranty.value=1; document.cartfrm.submit(); return false">Add warranty</a><br/>
+<%
+	elsif @warranty
+%>
+		<a href="#" class="button large" style="float: none" onclick="document.cartfrm.warranty.value=0; document.cartfrm.submit(); return false">Remove warranty</a><br/>
+<%
+	end
+%>
+		<h3 style="display: inline">Quantity: <%= select_tag :qty, options_for_select( ['']+@deal.quantities_for_select( @qty ), @qty ), :style => 'width:auto', :onchange => 'this.form.submit()' %></h2>
+		<%= link_to image_tag( 'icon-cross.png', :width => 24, :height => 24, :align => 'absmiddle', :alt => 'Clear cart', :title => 'Clear cart' ), checkout_path( :action => 'destroy' ), :method => :delete %>
+		<h1>Total: <%= format_price( ( @deal.price_for( @qty ) + ( @warranty ? @deal.warranty_cost : 0 ) ) * @qty, @deal.currency ) %><sup style="font-size: 0.5em">*</sup></h1>
+		<% end %>
+		<%= link_to 'Commit to buy', '', :method => 'post', :class => 'button', :style => 'width: 200px; text-align: center', :id => 'checkout' %>
+	</td>
+</tr>
+</table>
+<p>* Total price including shipping and taxes based on your shipping location.</p>
+<div class="left boxed box">
+	<div style="padding-left: 10px"><h3>Mobile Marketplace Bank Info in your region</h3></div>
+	<%= simple_format Bank.by_region( @shipping_address ).to_s %>
+</div>
+<div class="left boxed box">
+	<div style="padding-left: 10px"><h3>Customer executive in your region</h3></div>
+<%
+	if current_user.admin
+%>
+	<p>
+		<%= current_user.admin.name %><br/>
+		<%= link_to current_user.admin.email, current_user.admin.email %><br/>
+		<%= current_user.admin.phone %>
+	</p>
+<%
+	else
+%>
+	<p>N/A</p>
+<%
+	end
+%>
+</div>

@@ -1,0 +1,147 @@
+<div id="addnew" onclick="window.location.href='<%= url_for :action => 'new' %>'">
+	<h1>Add new</h1>
+</div>
+
+<!--  start page-heading -->
+<div id="page-heading">
+	<h1>Listing <%= @type.humanize %>
+		<%=raw @user ? 'for '+link_to( @user.to_s, manage_path( @user.class.to_s.downcase.pluralize, 'edit', @user ) ) : '' %>
+		<%=raw @product ? 'for '+link_to( @product.to_s, manage_path( @product.class.to_s.downcase.pluralize, 'edit', @product ) ) : '' %>
+	</h1>
+</div>
+<!-- end page-heading -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+<tr>
+	<th rowspan="3" class="sized"><%= image_tag 'shared/side_shadowleft.jpg', :width => 20, :height => 300 %></th>
+	<th class="topleft"></th>
+	<td id="tbl-border-top">&nbsp;</td>
+	<th class="topright"></th>
+	<th rowspan="3" class="sized"><%= image_tag 'shared/side_shadowright.jpg', :width => 20, :height => 300 %></th>
+</tr>
+<tr>
+	<td id="tbl-border-left"></td>
+	<td>
+		<!--  start content-table-inner ...................................................................... START -->
+		<div id="content-table-inner">
+			<!--  start table-content  -->
+			<div id="table-content">
+				<%= render 'shared/messages' %>
+				<%= form_tag( { :action => 'destroy' }, :method => 'post', :id => 'mainform' ) do |f| %>
+				<table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+				<tr>
+					<th class="table-header-check"><a id="toggle-all" ></a> </th>
+<%
+	for f in @class.listing_fields
+		if f.to_s == 'sign_in_count'
+			name = 'Total logins'
+		elsif f.to_s == 'current_sign_in_at'
+			name = 'Last login'
+		else
+			name = f.to_s.humanize
+		end
+		if @class.accessible_attributes.include?( f )
+%>
+					<th class="table-header-repeat line-left"><%= link_to name, url_for+'?per_page='+@per_page.to_s+'&order='+f.to_s+'&dir='+( ( params[:order] == f.to_s and params[:dir] != 'desc' ) ? 'desc' : 'asc' ) %></th>
+<%
+		else
+%>
+					<th class="table-header-repeat line-left"><%= link_to name, '#' %></th>
+<%
+		end
+	end
+%>
+					<th class="table-header-options line-left"><a href="#">Options</a></th>
+				</tr>
+<% @objects.each_index do |key| object = @objects[key] %>
+				<tr class="<%= key % 2 == 1 ? 'alternate-row' : '' %>">
+					<td><input type="checkbox" name="objects[]" value="<%= object.id %>" /></td>
+<%
+	for f in @class.listing_fields
+		if f.to_s == 'thumb' && object.send(f) != nil
+%>
+					<td><%= image_tag object.send(f), :height => 40 %></td>
+<%
+		elsif f.to_s == 'current_sign_in_at' and !object.current_sign_in_at.nil?
+%>
+					<td><%= object.current_sign_in_at%> from <%= object.current_sign_in_ip %></td>
+<%
+		else
+%>
+					<td><%= object.send(f) %></td>
+<%
+		end
+	end
+%>
+					<td class="options-width">
+<%
+	if object.methods.include?( 'active' )
+%>
+						<%= link_to '', { :action => 'activate', :id => object }, :title => ( object.active ? 'Deactivate' : 'Activate' ), :class => 'info-tooltip icon-'+( object.active ? '5' : '6' ), :remote => true %>
+<%
+	end
+	if object.methods.include?( 'deals' )
+%>
+						<%= link_to '', ( object.is_a?( Product ) ? manage_path( :type => 'deals', :action => 'product', :id => object ) : manage_path( :type => 'deals', :action => 'user', :id => object ) ), :title => 'Deals', :class => 'info-tooltip icon-7' %>
+<%
+	end
+%>
+						<%= link_to '', { :action => 'show', :id => object }, :title => 'Show', :class => 'icon-3 info-tooltip fancybox', 'data-fancybox-type' => "iframe" %>
+						<%= link_to '', { :action => 'edit', :id => object }, :title => 'Edit', :class => 'icon-1 info-tooltip' %>
+						<%= link_to '', { :action => 'destroy', :id => object }, :title => 'Delete', :class => 'icon-2 info-tooltip', :confirm => 'Are you sure?', :method => :delete %>
+					</td>
+				</tr>
+<% end %>
+				</table>
+				<!--  end product-table................................... --> 
+				<% end %>
+			</div>
+			<!--  end content-table  -->
+		
+			<!--  start actions-box ............................................... -->
+			<div id="actions-box">
+				<a href="" class="action-slider"></a>
+				<div id="actions-box-slider">
+					<a href="" class="action-edit">Edit</a>
+					<a href="" class="action-delete">Delete</a>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<!-- end actions-box........... -->
+			
+			<!--  start paging..................................................... -->
+			<table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+			<tr>
+			<td>
+				<%= will_paginate @objects %>
+			</td>
+			<td>
+				<select class="styledselect_pages" onchange="window.location.href='<%= url_for %>?per_page='+this.value">
+					<option value="">Number of rows</option>
+<%
+	for i in [ 1, 2, 3 ]
+%>
+					<option value="<%= i %>" <%= @per_page == i.to_s ? 'selected' : '' %>><%= i %></option>
+<%
+	end
+%>
+				</select>
+			</td>
+			</tr>
+			</table>
+			<!--  end paging................ -->
+			
+			<div class="clear"></div>
+		 
+		</div>
+		<!--  end content-table-inner ............................................END  -->
+	</td>
+	<td id="tbl-border-right"></td>
+</tr>
+<tr>
+	<th class="sized bottomleft"></th>
+	<td id="tbl-border-bottom">&nbsp;</td>
+	<th class="sized bottomright"></th>
+</tr>
+</table>
+<div class="clear">&nbsp;</div>

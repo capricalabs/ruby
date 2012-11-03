@@ -1,0 +1,1 @@
+Partially developed online shop for mobile phones featuring wholesaler and dealer accounts. Interesting part is the admin management controller and set of script which allows transparent admin management pages for any db entity. Rails 3.2.3.

@@ -1,0 +1,22 @@
+- title "FirmHugger - Create new password"
+
+.signin-box
+  %hgroup
+    %h1 Create new password
+    %hr.top
+
+  #signin-form
+    = form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
+      = devise_error_messages!
+      = f.hidden_field :reset_password_token
+      = f.label :password, "New password"
+      = f.password_field :password, :class => "input-area"
+      = f.label :password_confirmation, "Confirm new password"
+      = f.password_field :password_confirmation, :class => "input-area"
+      = f.submit "Change my password", :class => "login-button"
+  .clearfix
+
+#signin-links
+  = link_to "Sign in", new_company_admin_session_path, :class => "signin-link"
+  = link_to "Don't have an account?", new_registration_path(resource_name), :class => "signin-link"
+  = link_to "Didn't receive confirmation email?", new_confirmation_path(resource_name), :class => "signin-link"

@@ -1,0 +1,20 @@
+.signin-box
+  %hgroup
+    %h1 Resend confirmation email
+    %hr.top
+    %hr.bottom
+    %h2
+      Enter your 
+      %span.bold email address
+      below. 
+    %p Then we'll send you a new confirmation email for you to activate your account.
+  #signin-form
+    = form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
+      = devise_error_messages!
+      %div
+        = f.label :email
+        = f.email_field :email, :class => "input-area", :autofocus => true
+      = f.submit "Cool! Send it to me", :class => "login-button"
+    .clearfix
+    %p.hint Please also check your spam filter. Your confirmation email might be there!
+  .clearfix

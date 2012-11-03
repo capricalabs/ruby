@@ -1,0 +1,135 @@
+<div class="left twothirds">
+	<h1>Join now</h1>
+	<div class="mailwrapper">
+		<div class="maildiv">
+<% if resource.errors.any? %>
+			<!--  start message-red -->
+			<div id="message-red">
+				<table border="0" width="100%" cellpadding="0" cellspacing="0" class="plain">
+				<tr>
+					<td class="red-left">Please correct the following <%= resource.errors.count == 1 ? "error" : "errors" %>:</td>
+					<td class="red-right"><a class="close-red"><%= image_tag "table/icon_close_red.gif" %></a></td>
+				</tr>
+				</table>
+			</div>
+			<!--  end message-red -->
+<% end %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+<%
+	if resource.errors[:email][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:email][0] %></div>
+<%
+	end
+%>
+	<%= f.label :email, :class => 'sidelbl' %>
+	<%= f.email_field :email, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:password][0]
+%>
+	<div class="error-inner"><%= resource.errors[:password][0] %></div>
+	<div class="error-left"></div>
+<%
+	end
+%>
+	<%= f.label :password, :class => 'sidelbl' %>
+	<%= f.password_field :password, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:password_confirmation][0]
+%>
+	<div class="error-inner"><%= resource.errors[:password_confirmation][0] %></div>
+	<div class="error-left"></div>
+<%
+	end
+%>
+	<%= f.label :password_confirmation, :class => 'sidelbl' %>
+	<%= f.password_field :password_confirmation, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:name][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:name][0] %></div>
+<%
+	end
+%>
+	<%= f.label :name, :class => 'sidelbl' %>
+	<%= f.text_field :name, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:company][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:company][0] %></div>
+<%
+	end
+%>
+	<%= f.label :company, :class => 'sidelbl' %>
+	<%= f.text_field :company, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+	if resource.errors[:phone][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:phone][0] %></div>
+<%
+	end
+%>
+	<%= f.label :phone, :class => 'sidelbl' %>
+	<%= f.text_field :phone, :class => 'fmtext' %>
+	<br clear="all" />
+<%=
+	f.fields_for :shipping_address, resource.shipping_address do |subform|
+%>
+<%
+		for fv in [ [ :line, "Address line 1" ], [ :line2, "Address line 2" ], [ :city, "City" ], [ :state, "State" ], [ :zip, "Postal code" ] ]
+			field = fv[0]
+			label = fv[1]
+			if resource.shipping_address.errors[field][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.shipping_address.errors[field][0] %></div>
+<%
+			end
+%>
+	<%= subform.label field, label, :class => 'sidelbl' %>
+	<%= subform.text_field field, :class => 'fmtext' %>
+	<br clear="all" />
+<%
+		end
+		if resource.shipping_address.errors[:country][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.shipping_address.errors[:country][0] %></div>
+<%
+		end
+%>
+	<%= subform.label :country, :class => 'sidelbl' %>
+	<%= subform.select :country, options_for_select(['']+ApplicationHelper::COUNTRIES, resource.shipping_address.country) %>
+	<br clear="all" />
+<%
+	end
+	if resource.errors[:dealer][0]
+%>
+	<div class="error-left"></div>
+	<div class="error-inner"><%= resource.errors[:dealer][0] %></div>
+<%
+	end
+%>
+	<%= f.label :dealer, "Account type", :class => 'sidelbl' %>
+	<%= f.radio_button :dealer, false %> Wholesaler/Liquidator ---LIKE SELLER / PROPOSE A DEAL<br/>
+	<label class="sidelbl">&nbsp;</label>
+	<%= f.radio_button :dealer, true %> Dealer/Distributor ---LIKE BUYER
+	<br clear="all" />
+	<div class="fmspacer"><!-- --></div>
+	<div class="fmsubmit"><%= f.submit "Sign up" %></div>
+<% end %>
+		</div>
+	</div>
+</div>
+<div class="right third"> <!-- float column on right and make it 1/3 width -->
+	<%= render :partial => "devise/shared/links" %>
+</div><!-- end column -->

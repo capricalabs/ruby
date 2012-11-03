@@ -1,0 +1,26 @@
+- title "FirmHugger - Company sign in"
+
+.signin-box
+  %hgroup
+    %h1 Hi, please sign in
+    %hr.top
+    %hr.bottom
+
+  #signin-form
+    = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+      = f.label :email
+      = f.email_field :email, :autofocus => true, :class => "input-area"
+      = f.label :password
+      = f.password_field :password, :class => "input-area"
+      - if devise_mapping.rememberable?
+        .remember-me
+          = f.check_box :remember_me, :checked => true
+          = f.label :remember_me
+      %br
+      = f.submit "Sign in", :class => "login-button"
+      = link_to "Forgot your password?", new_password_path(resource_name), :class => "forgot-password"    
+  .clearfix
+
+#signin-links
+  = link_to "Don't have an account?", new_registration_path(resource_name), :class => "signin-link"
+  = link_to "Didn't receive confirmation email?", new_confirmation_path(resource_name), :class => "signin-link"

@@ -1,0 +1,7 @@
+<% content_for :content do %>
+	<%= render 'shared/myaccount' %>
+	<div class="right twothirds">
+		<%= yield %>
+	</div>
+<% end %>
+<%= render :template => 'layouts/application' %>

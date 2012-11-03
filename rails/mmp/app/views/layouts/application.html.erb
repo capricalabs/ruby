@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<%=raw @page ? @page.meta_tags : '' %>
+	<title><%= @meta_title %></title>
+	<link href='http://fonts.googleapis.com/css?family=Lobster+Two:400,400italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="http://cdn.webrupee.com/font"/>
+	<%= stylesheet_link_tag    "application", :media => "all" %>
+	<%= javascript_include_tag "application" %>
+	<%= csrf_meta_tags %>
+	<!--[if lt IE 7]>
+	<script defer type="text/javascript" src="pngfix.js"></script>
+	<![endif]-->
+</head>
+<body>
+
+<!-- header area for top of screen -->
+<div id="header" class="wrapper">
+	<!-- top grey bar -->
+	<div id="top">	
+		<div class="holder">
+			<!-- logo -->
+			<h1 id="logo"><span><%= link_to 'Home', home_path %></span></h1>
+		</div><!-- end holder -->
+	</div><!-- end top -->
+	<!-- banner area -->
+	<div id="banner<%= @show_slider ? '' : 'Inner' %>">
+		<div class="holder">
+<%
+	#unless [ 'sessions', 'registrations', 'passwords', 'confirmations', 'unlocks' ].include? controller_name
+	if controller_name != 'sessions'
+		if user_signed_in?
+%>
+			<!-- welcome form -->
+			<div id="topform" class="cart">
+				<div class="formhead">
+					<div style="float: right"><h2><%= link_to 'Logout', destroy_user_session_path, :method => 'delete' %></h2></div>
+					<h2>Welcome <%= current_user.name %></h2>
+				</div><!-- end form head -->
+				
+				<div class="formbody">
+					<div class="cartIcon"><%= image_tag 'icon-cart-empty.png', :width => "62", :height => "64", :alt => "Cart Empty" %></div>
+					<div class="cartText">
+						<p><span class="heading"><%= session[:cart] ? session[:cart][:qty] : 0 %></span> items in your cart</p>
+					</div>
+					<div>
+						<%= button_to 'Checkout', checkout_path, :method => 'get', :class => 'button', :id => 'checkout' %>
+					</div>
+				</div><!-- end formbody -->
+			</div><!-- end topform -->
+<%
+		else
+%>
+			<!-- login form -->
+			<div id="topform" class="login">
+				<div class="formhead">
+					<h2>Client Login</h2>
+				</div><!-- end form head -->
+				<div class="formbody">
+					<%= form_tag(user_session_path) do %>
+						<div>
+							<%= email_field_tag 'user[email]', 'Email', :id => 'name', :tabindex => '1' %>
+						</div>
+						<div>
+							<%= password_field_tag 'user[password]', 'Password', :id => 'password', :tabindex => '2' %>
+						</div>                    
+						<div>
+							<input type="submit" class="button" value="Submit" id="submit" />
+						</div>
+					<% end %>
+				</div><!-- end formbody -->
+			</div><!-- end topform -->
+<%
+		end
+	end
+%>
+			<!-- navigation area -->
+			<div id="navigation" class="ddsmoothmenu">
+				<ul>
+					<li><%= link_to 'Home', home_path %></li>
+					<li><%= link_to 'How It Works', how_it_works_path %></li>
+<%
+	if user_signed_in?
+%>
+					<li>
+						<%= link_to 'My Account', edit_registration_path( 'user' ) %>
+						<ul>
+							<li><%= link_to "Account details", edit_registration_path( 'user' ) %></li>
+							<li><%= link_to "Billing addresses", addresses_url( :type => 'billing' ) %></li>
+							<li><%= link_to "Shipping addresses", addresses_url( :type => 'shipping' ) %></li>
+						</ul>
+					</li>
+					<li>
+						<%= link_to 'Deals', deals_path %>
+						<ul>
+							<li><%= link_to "Current deals", deals_path %></li>
+						</ul>
+					</li>
+<%
+	else
+%>
+					<li><%= link_to 'Join Now', new_registration_path( 'user' ) %></li>
+<%
+	end
+%>
+					<li><%= link_to 'Contact', contact_path %></li>
+				</ul>
+			</div><!-- end navigation -->
+			<div class="clearfix"></div>
+			<%= render 'shared/slider' if @show_slider %>
+		</div><!-- end holder -->
+	</div><!-- end banner -->
+</div><!-- end header -->
+<div class="clearfix"></div>
+<!-- content area -->
+<div id="content" class="wrapper">
+	<div class="holder">
+		<%= render 'shared/messages' %>
+		<%= content_for?(:content) ? yield(:content) : yield %>
+	</div><!-- end holder -->
+</div><!-- end content -->
+<div class="clearfix"></div>
+<!-- footer area -->
+<div id="footer" class="wrapper">
+	<div class="holder">
+		<% @page = @footer %>
+		<%= render :template => 'public/'+@footer.template %>
+	</div><!-- end holder -->
+</div><!-- end footer -->
+
+</body>
+</html>

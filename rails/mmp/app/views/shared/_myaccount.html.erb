@@ -1,0 +1,50 @@
+<div class="left third"> <!-- float column on left and make it 1/3 width -->
+	<div id="accordion" class="accordionWrapper">
+		<div class="set set1">
+			<div class="accordionTitle">My Account</div>
+			<div class="accordionContent">
+				<ul>
+					<li><%= link_to "Account details", edit_registration_path( 'user' ) %></li>
+					<li><%= link_to "Billing addresses", addresses_url( :type => 'billing' ) %></li>
+					<li><%= link_to "Shipping addresses", addresses_url( :type => 'shipping' ) %></li>
+				</ul>
+			</div>
+		</div>
+		<div class="set set2">
+			<div class="accordionTitle">Orders</div>
+			<div class="accordionContent">
+				<ul>
+					<li><a href="#">All orders</a></li>
+					<li><a href="#">Pending orders</a></li>
+					<li><a href="#">Completed orders</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="set set3">
+			<div class="accordionTitle">Deals</div>
+			<div class="accordionContent">
+				<ul>
+					<li><%= link_to "Current deals", deals_path %></li>
+					<li><a href="#">My deals</a></li>
+					<li><a href="#">Proposed deals</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="set set4">
+			<div class="accordionTitle">Support Tickets</div>
+			<div class="accordionContent">
+				<ul>
+					<li><a href="#">My tickets</a></li>
+					<li><a href="#">New ticket</a></li>
+				</ul>
+			</div>
+		</div>
+	</div><!-- end accordion -->
+	<br clear="all" />
+	<p><small>Last login: <%= current_user.last_sign_in_at %><br/>IP: <%= current_user.last_sign_in_ip %></small></p>
+</div><!-- end column -->
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#accordion").msAccordion({defaultid:<%= controller_name == 'deals' ? 2 : 0 %>, vertical:true, event:'mouseover'});
+	});
+</script>

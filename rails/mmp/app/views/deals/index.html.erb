@@ -1,0 +1,25 @@
+<h1>Current deals</h1>
+<ul class="deals">
+<%
+	for deal in @deals
+%>
+	<li onclick="window.location.href='<%= deal_path( deal ) %>'" style="cursor: pointer">
+<%
+		if deal.product.images.size > 0 and deal.product.images.first.image?
+%>
+		<%= image_tag deal.product.images.first.image.thumb.url, :alt => deal.product.to_s, :align => 'left', :width => 270 %>
+<%
+		end
+%>
+		<h1><%= deal.product.to_s %></h1>
+		<h2>Our Price: <%=raw format_price deal.price, deal.currency %></h2>
+		<h2>Minimum Quantity: <%= deal.min_qty %></h2>
+		<h2>Valid until: <%= deal.end_date.to_s( :short ) %></h2>
+		<p><%= deal.product.summary %></p>
+		<a class="button large">Read More Specs</a>
+		<br clear="all" />
+	</li>
+<%
+	end
+%>
+</ul>

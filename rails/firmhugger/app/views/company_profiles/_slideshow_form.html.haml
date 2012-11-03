@@ -1,0 +1,27 @@
+%p
+  Click to add a new picture (optimal size is 740 x 340 pixels)
+  %br
+  You have
+  %span#slideshow_images #{pluralize(pictures.size,"image")}
+  in your slideshow
+
+.slideshow_form
+  - for picture in pictures
+    .img.pull-left
+      - if picture.picture?
+        = image_tag picture.picture.url(:medium)
+      - else
+        = image_tag('default_company_image.png')
+    .fields.pull-left
+      = f.fields_for :slideshow_pictures, picture do |g|
+        = g.text_field :title, :placeholder => "Type header for this image here (optional)", :class => "input-area"
+        = g.text_area :description, :placeholder => "Type description for this image here (optional)", :class => "input-area", :rows => 2
+        .pull-left
+          = g.check_box :_destroy
+          Delete picture
+  .clearfix
+
+  .img
+    %a#add_image add image
+  :javascript
+    $("#add_image").companySlideshow();

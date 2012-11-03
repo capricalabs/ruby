@@ -1,0 +1,121 @@
+source 'https://rubygems.org'
+
+# Rails core
+gem 'rails', '3.2.2'
+
+# jQuery
+gem 'jquery-rails'
+
+# Ajax file upload
+gem 'remotipart'
+
+# PostgreSQL
+gem 'pg'
+
+# Geocoding for companies and users
+gem 'geocoder'
+
+# Google Maps integration
+gem 'gmaps4rails'
+
+# Pagination
+gem 'kaminari'
+
+# Attachments (on Amazon S3)
+gem 'paperclip'
+gem 'aws-sdk'
+gem 'aws-s3'
+
+# A list of countries
+gem 'country-select'
+
+# Third-party auths
+gem 'omniauth-openid'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-yahoo'
+gem 'omniauth-google-oauth2'
+
+# User management
+gem 'devise'
+
+# Version management
+gem 'paper_trail'
+
+# WYSIWYG editor
+gem 'tinymce-rails', '3.4.9' # 3.5 not supported by tinymce-rails-imageupload
+gem 'tinymce-rails-imageupload'
+
+# Text functions (i.e. Levenshtein's order)
+gem 'text'
+
+# Spam filtering
+gem 'rakismet', :git => 'git://github.com/joshfrench/rakismet.git'
+
+# Fast routes
+gem 'routes'
+
+# Mixin library for SASS
+gem 'bourbon'
+
+# Use unicorn as app server
+gem 'unicorn'
+
+# Deploy with Capistrano
+gem 'capistrano'
+
+# Our server
+gem 'thin'
+
+# Compass CSS Framework
+gem 'compass-rails'
+
+# CSS framework
+gem 'twitter-bootstrap-rails'
+
+group :assets do
+  # Sexy CSS
+  gem 'sass-rails', '~> 3.2.3'
+  
+  # Sexy JS
+  gem 'coffee-rails', '~> 3.2.1'
+  
+  # Fast JS
+  gem 'uglifier', '>= 1.0.3'
+  
+  # Sexy HTML
+  gem 'haml'
+  gem 'haml-rails'
+  
+end
+
+group :development do
+end
+
+group :test do
+  # Browser emulator
+  gem 'capybara'
+  
+  # Test suite
+  gem 'rspec-rails'
+  gem 'rspec-mocks'
+  gem 'rspec-instafail'
+  
+  # Clean and shiny DB
+  gem 'database_cleaner'
+  
+  # Generates fake data
+  gem 'ffaker'
+  
+  # Open pages with errors in browser
+  gem 'launchy'
+  
+  # Clean testing env
+  gem 'spork'
+
+  # Creates dummy objects
+  gem 'factory_girl_rails'
+  
+  # Rspec validation plugin
+  gem 'accept_values_for'
+end

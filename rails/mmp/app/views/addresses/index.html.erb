@@ -1,0 +1,22 @@
+<h1><%= @type.humanize %> addresses</h1>
+
+<% @addresses.each do |address| %>
+<div class="left boxed box">
+	<div style="text-align: center; padding-top: 10px">
+		<%= link_to image_tag( 'icon-calendar.png', :width => 24, :height => 24, :alt => 'Edit', :title => 'Edit' ), edit_address_path( address ) %>
+<%
+	unless address.default
+%>
+		<%= link_to image_tag( 'icon-person.png', :width => 24, :height => 24, :alt => 'Make Default', :title => 'Make Default' ), default_address_path( address ), :method => :put %>
+<%
+	end
+%>
+		<%= link_to image_tag( 'icon-cross.png', :width => 24, :height => 24, :alt => 'Delete', :title => 'Delete' ), address_path( address ), :confirm => 'Please confirm if you want to delete this address.', :method => :delete %>
+	</div>
+	<%= simple_format( address.to_s ) %>
+</div>
+<% end %>
+
+<br clear="all" />
+
+<%= link_to 'New Address', new_address_path( :type => @type ) %>

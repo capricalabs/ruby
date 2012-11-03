@@ -1,0 +1,43 @@
+<div class="left half">
+	<h1>Product Specs</h1>
+	<%= raw @deal.product.features %>
+</div><!-- end column -->
+<div class="right half">
+	<h1>Deal Details</h1>
+<%
+	if @deal.product.images.size > 0
+%>
+	<table border="0" cellpadding="0" cellspacing="0" class="plain">
+	<tr>
+<%
+		@deal.product.images.each_with_index do |img,key|
+			if key > 0 and key % 3 == 0
+%>
+	</tr>
+	<tr>
+<%
+			end
+%>
+		<td valign="bottom" width="130" style="padding-right: 20px"><%= link_to image_tag( img.image.thumb.url, :width => "130" ), img.image.url, :rel => 'deals', :class => 'fancybox', :title => @deal.product.to_s %></td>
+<%
+		end
+%>
+	</tr>
+	</table>
+<%
+	end
+%>
+	<h2>Deal ID: <%= @deal.id %></h2>
+	<h2>Brand: <%= @deal.product.brand %></h2>
+	<h2>Product: <%= @deal.product %></h2>
+	<h2>Model: <%= @deal.product.model %></h2>
+	<h2>Our Price: <%=raw format_price @deal.price_for( params[:qty] ), @deal.currency %></h2>
+	<h2>Minimum Quantity: <%= @deal.min_qty %></h2>
+	<h2>Valid until: <%= @deal.end_date.to_s( :short ) %></h2>
+	<p><%= @deal.product.summary %></p>
+<%=	form_tag checkout_path( :action => 'add' ), :name => 'cartfrm', :method => 'post' do %>
+<%= hidden_field_tag 'deal_id', @deal.id %>
+	<h2 style="display: inline">Buy: <%= select_tag :qty, options_for_select( ['']+@deal.quantities_for_select, params[:qty] ), :style => 'width:auto', :onchange => 'window.location.href="'+deal_path( @deal )+'?qty="+this.value' %></h2>
+	<a href="#" class="button large" style="float: none" onclick="document.cartfrm.submit(); return false">Add to cart</a>
+<% end %>
+</div><!-- end column -->

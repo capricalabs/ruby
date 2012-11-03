@@ -1,0 +1,30 @@
+				<td>
+					<!--  start related-activities -->
+					<div id="related-activities">
+						<!--  start related-act-top -->
+						<div id="related-act-top">
+							<%= image_tag "forms/header_related_act.gif", :width => 271, :height => 43 %>
+						</div>
+						<!-- end related-act-top -->
+						<!--  start related-act-bottom -->
+						<div id="related-act-bottom">
+							<!--  start related-act-inner -->
+							<div id="related-act-inner">
+								<div class="left"><a href=""><%= image_tag "forms/icon_edit.gif", :width => 21, :height => 21 %></a></div>
+								<div class="right">
+									<h5>Manage addresses</h5>
+									Here you can manage this user's billing and shipping addresses.
+									<ul class="greyarrow">
+										<li><a href="<%= url_for manage_addresses_path( @type, @object, 'billing_addresses' ) %>">Manage billing addresses</a></li> 
+										<li><a href="<%= url_for manage_addresses_path( @type, @object, 'shipping_addresses' ) %>">Manage shipping addresses</a> </li>
+									</ul>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<!-- end related-act-inner -->
+							<div class="clear"></div>
+						</div>
+						<!-- end related-act-bottom -->
+					</div>
+					<!-- end related-activities -->
+				</td>

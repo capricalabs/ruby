@@ -1,0 +1,5 @@
+%p.bold Welcome #{@resource.name}!
+%p We are excited that you started creating a company profile on FirmHugger!
+%p= link_to 'Please confirm your account here', company_admin_confirmation_url(:confirmation_token => @resource.confirmation_token)
+%p See you soon,
+%p.bold The FirmHugger Team

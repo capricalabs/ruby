@@ -1,0 +1,1 @@
+Sample files from a rails 3.2 application - http://firmhugger.com
