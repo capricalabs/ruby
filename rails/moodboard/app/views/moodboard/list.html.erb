@@ -1,0 +1,21 @@
+<div id="mb-list">
+
+<h2>Your Mood Boards</h2>
+
+<ul>
+<% for mb in @moodboards %>
+  <li>
+    <a href="<%= url_for(:action => 'show', :id => mb.id) %>"
+      ><img src="<%= mb.thumb_storage.get_url unless mb.thumb_storage.nil?%>"
+      /></a>
+
+    <%= link_to mb.get_name, :action => 'show', :id => mb.id %>
+  </li>
+<% end %>
+</ul>
+
+<div class="clr"></div>
+
+<p><%= link_to 'Create new Mood Board', :action => 'new' %></p>
+
+</div>

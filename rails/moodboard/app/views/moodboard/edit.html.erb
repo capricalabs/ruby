@@ -1,0 +1,53 @@
+<div id="mb-edit">
+
+  <h2>Mood Board editor</h2>
+
+  <div id="mb-fields">
+    <p class="mb-actions">
+      <a class="mb-save-link" href="#">[save]</a>
+      <%= link_to '[back to preview]', :action => 'show', :id => @moodboard.id %>
+      <%= link_to '[back to list]', :action => 'list' %>
+    </p>
+
+    <p class="mb-status-line">
+      Status: <span class="mb-status">saved</span>
+    </p>
+
+    <p>Name:</p>
+    <p><input type="text" name="mb-name" value="<%= @moodboard.name %>" /></p>
+    <p>Description:</p>
+    <p><textarea name="mb-desc"><%= @moodboard.desc %></textarea></p>
+    <p>
+      Status:
+      <input type="radio" name="mb-status" value="public" <%= 'checked' if @moodboard.status == 'public' %> /> public
+      <input type="radio" name="mb-status" value="private"<%= 'checked' if @moodboard.status == 'private' %> /> private
+    </p>
+  </div> <!-- #mb-fields -->
+
+  <div class="mb-board-wrap"><div id="mb-board"></div></div>
+  <div class="mb-sidebar-wrap"><div id="mb-sidebar"></div></div>
+  <div style="clear:both"></div>
+
+  <div id="mb-source-photos">
+    <p>Other photos:</p>
+    <p>
+    <img src="/storage/thumb_2cc50e5218b1221b.jpg" class="mb-photo" title="custom photo5" style="width: 140px; height: 105px;" data-orig-width="640" data-orig-height="480" data-url="/storage/photo_f36344a4b4582afc.jpg" data-photo-id="5" data-product-name="foobar">
+    </p>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+(function($) {
+$(function() {
+  $('#mb-board').MBEditor({
+    board: (<%= @moodboard.to_hash(:edit).to_json.html_safe %>),
+    saved_attributes: ['photo-id', 'product-name'],
+    source_photos: '#mb-source-photos'
+  });
+  $('#mb-sidebar').MBSidebar({board: '#mb-board', images: (<%= @images.to_json.html_safe %>)});
+  $('#mb-fields').MBAutoSave({board: '#mb-board', url: '/moodboard/save/<%= @moodboard.id %>', interval: 10});
+});
+})(jQuery);
+</script>
+

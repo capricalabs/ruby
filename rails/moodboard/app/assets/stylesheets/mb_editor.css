@@ -1,0 +1,21 @@
+#mb-board{border:1px solid #333;position:relative;}
+
+#mb-board .mb-tile{position:absolute;background:#d3d3d3;overflow:hidden;border:1px solid gray;}
+#mb-board .mb-tile-text{position:absolute;left:0;top:0;text-align:center;font-size:10px;font-family:verdana;font-style:italic;color:#666;z-index:0;}
+#mb-board .mb-tile-image{position:absolute;left:0;top:0;z-index:5}
+#mb-board .mb-tile .ui-state-disabled{opacity:1;filter:none;}
+#mb-board .mb-tile-menu{position:absolute;z-index:10;bottom:0;left:0;height:40px;width:100%;background:#fff;opacity:0.8;text-align:center;display:none;}
+#mb-board .mb-tile-menu a{color:black;text-decoration:none;text-transform:uppercase;font-size:10px;font-family:verdana;}
+#mb-board .mb-tile-menu-base{padding-top:10px;}
+#mb-board .mb-tile-menu-edit{display:none;padding:8px 15px 0 15px;}
+#mb-board .mb-tile-menu-slider{font-size:9px;}
+
+#mb-board .mb-tile-filled:hover .mb-tile-menu{display:block;}
+#mb-board .mb-tile-editing .mb-tile-menu{display:block;}
+#mb-board .mb-tile-editing .mb-tile-menu-edit{display:block;}
+#mb-board .mb-tile-editing .mb-tile-menu-base{display:none;}
+#mb-board .mb-tile-editing .mb-tile-image img{cursor:move;}
+
+#mb-board .mb-photo.ui-draggable-dragging{border:1px solid #333;opacity:0.7}
+#mb-board .ui-state-hover{border:none;background:#ececec;}
+#mb-board .ui-state-hover img{opacity:0.5;}

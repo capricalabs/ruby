@@ -1,0 +1,131 @@
+== Welcome to the Moodboard Project
+
+MBEditor usage
+
+
+1. JS Requirements:
+
+  * jquery-1.8.2.js
+  * jquery-ui-1.9.1.custom.js
+
+
+2. CSS Requirements
+
+  * jquery-ui-smoothness/jquery-ui-1.9.1.custom.css
+  * mb_editor.css
+
+
+3. Methods
+
+
+3.1. Initialize
+
+  $('#mb-board').MBEditor(options)
+
+  Available options:
+
+  board: {
+    width: 694,   // width of the moodboard
+    height: 556,  // height of the moodboard
+    tiles: [      // array of tiles
+      {
+        // size and position of the tile
+        x: 5,
+        y: 5,
+        width: 178,
+        height: 132,
+
+        // size and position of the edited image
+        edit_width: 178,
+        edit_height: 133,
+        edit_x_offset: 0,
+        edit_y_offset: -1,
+
+        // size, url, title of the original image
+        orig_width: 640,
+        orig_height: 480,
+        orig_url: "/storage/photo_c843fc8c47fe11a1.jpg",
+        title: "photo4",
+
+        // custom attributes
+        attributes: {
+          photo_id: 4
+        }
+      },
+      ...
+    ]
+  },
+
+  // custom saved attributes
+  saved_attributes: ['photo-id', 'product-name'],
+
+  // optional element with source photos (see 3.2)
+  source_photos: '#mb-source-photos'
+
+
+3.2. Initialize custom source photos (e.g. after loading them with ajax)
+
+  $('#mb-board').data('mb-editor').init_source_photos('#custom-photos')
+
+  Mandatory HTML attributes:
+
+    src - url of the thumbnail
+    class - "mb-photo"
+    title - title of the image
+    data-orig-width - width of the original image
+    data-orig-height - height of the original image
+    data-url - url of the original image
+
+  Example:
+
+  <div id="custom-photos">
+    <img
+        src="/storage/thumb_2cc50e5218b1221b.jpg"
+        class="mb-photo"
+        title="custom photo5"
+        data-orig-width="640"
+        data-orig-height="480"
+        data-url="/storage/photo_f36344a4b4582afc.jpg"
+        data-photo-id="5"
+        data-product-name="foobar"
+    />
+  </div>
+
+
+3.3. Get present state
+
+  $('#mb-board').data('mb-editor').serialize()  // get present state
+
+  Returns array of tile attributes:
+
+  [
+    [
+      // custom attributes of the image
+      attributes: [
+        photo-id: 4
+        product-name: ""
+      ],
+
+      // size and position of the edited image
+      edit_height: 133,
+      edit_width: 178,
+      edit_x_offset: 0,
+      edit_y_offset: -1,
+
+      // size and position of the tile:
+      height: 132,
+      width: 178,
+      x: 5,
+      y: 5,
+    ],
+    ...
+  ]
+
+
+4. Events:
+
+4.1. Change
+
+  Triggered when user edits the moodboard
+
+  $('#mb-board').bind('change', -> self.set_dirty(true))

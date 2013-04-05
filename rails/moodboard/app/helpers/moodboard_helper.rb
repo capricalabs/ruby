@@ -1,0 +1,2 @@
+module MoodboardHelper
+end

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  moodboard_id: 1
+  photo_id: 1
+  thumb_path: MyString
+  width: 1
+  height: 1
+  xoffset: 1
+  yoffset: 1
+
+two:
+  moodboard_id: 1
+  photo_id: 1
+  thumb_path: MyString
+  width: 1
+  height: 1
+  xoffset: 1
+  yoffset: 1

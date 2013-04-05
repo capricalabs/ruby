@@ -1,0 +1,25 @@
+<div id="mb-new">
+
+<h2>Create new Mood Board</h2>
+
+<h3>From template:</h3>
+
+<ul>
+<% for tpl in @templates %>
+  <li><a href="<%= url_for(:action => 'create', :id => tpl.id) %>"><img src="<%= tpl.thumb_storage.get_url unless tpl.thumb_storage.nil?%>" /></a></li>
+<% end %>
+</ul>
+
+<div class="clr"></div>
+
+<h3>From existing Mood Board:</h3>
+
+<ul>
+<% for tpl in @moodboards %>
+  <li><a href="<%= url_for(:action => 'create', :id => tpl.id) %>"><img src="<%= tpl.thumb_storage.get_url unless tpl.thumb_storage.nil?%>" /></a></li>
+<% end %>
+</ul>
+
+<div class="clr"></div>
+
+</div>

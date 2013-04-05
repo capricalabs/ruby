@@ -1,0 +1,28 @@
+<div id="mb-show">
+
+  <h2><%= @moodboard.name %></h2>
+
+  <p><%= @moodboard.desc %></p>
+
+  <div class="actions">
+    <%= link_to '[back to list]', :action => 'list' %>
+    <%= link_to '[edit]', :action => 'edit', :id => @moodboard.id %>
+    <%= link_to '[download]', { :action => 'download', :id => @moodboard.id }, :target => '_blank' %>
+    <%= link_to '[delete]', { :action => 'delete', :id => @moodboard.id }, { :confirm => 'Are you sure?' } %>
+  </div>
+
+  <div id="moodboard"></div>
+
+</div>
+
+<script>
+(function($) {
+$(function() {
+
+  $('#moodboard').MBViewer((<%= @moodboard.to_hash.to_json.html_safe %>))
+
+});
+})(jQuery);
+</script>
+
+
